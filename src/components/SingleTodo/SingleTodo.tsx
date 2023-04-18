@@ -9,9 +9,15 @@ import Difficulty from "../Difficulty/Difficulty";
 
 interface SingleTodoProps {
   todo: Todo;
+  removeTodo: (id: string) => void;
+  generateRandomRewards: () => void;
 }
 
-const SingleTodo: FC<SingleTodoProps> = ({ todo }) => {
+const SingleTodo: FC<SingleTodoProps> = ({
+  todo,
+  removeTodo,
+  generateRandomRewards,
+}) => {
   const [isDetailsShowed, setIsDetailsShowed] = useState<boolean>(false);
 
   const toggleDetails = (): void => {
@@ -23,17 +29,21 @@ const SingleTodo: FC<SingleTodoProps> = ({ todo }) => {
       <div className="todo__item-top">
         <div className="todo__item-main">
           <h3 className="todo__item-title">{todo.title}</h3>
-          <Difficulty />
+          <Difficulty skullsNumber={todo.difficulty} />
         </div>
 
         <div className="todo__item-btns">
-          <button className="todo__item-btn todo__item-btn--complete">
+          <button
+            className="todo__item-btn todo__item-btn--complete"
+            onClick={generateRandomRewards}>
             {<FaCheck />}
           </button>
           <button className="todo__item-btn todo__item-btn--edit">
             {<AiFillEdit />}
           </button>
-          <button className="todo__item-btn todo__item-btn--delete">
+          <button
+            className="todo__item-btn todo__item-btn--delete"
+            onClick={() => removeTodo(todo.id)}>
             {<AiFillDelete />}
           </button>
           <button

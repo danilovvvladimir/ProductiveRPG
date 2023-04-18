@@ -6,9 +6,15 @@ import "./TodoList.scss";
 
 interface TodoListProps {
   todos: Todo[];
+  removeTodo: (id: string) => void;
+  generateRandomRewards: () => void;
 }
 
-const TodoList: FC<TodoListProps> = ({ todos }) => {
+const TodoList: FC<TodoListProps> = ({
+  todos,
+  removeTodo,
+  generateRandomRewards,
+}) => {
   if (todos.length === 0) {
     return <div className="todo__list todo__list--empty">No quests yet</div>;
   }
@@ -16,7 +22,12 @@ const TodoList: FC<TodoListProps> = ({ todos }) => {
   return (
     <ul className="todo__list">
       {todos.map((todo) => (
-        <SingleTodo key={todo.id} todo={todo} />
+        <SingleTodo
+          key={todo.id}
+          todo={todo}
+          removeTodo={removeTodo}
+          generateRandomRewards={generateRandomRewards}
+        />
       ))}
     </ul>
   );
