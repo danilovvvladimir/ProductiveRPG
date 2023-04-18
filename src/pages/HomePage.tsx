@@ -6,6 +6,7 @@ import { v4 } from "uuid";
 import Character from "../components/Character/Character";
 
 import "./HomePage.scss";
+import TodoForm from "../components/TodoForm/TodoForm";
 
 const Home = () => {
   const [todos, setTodos] = useState<Todo[]>([
@@ -20,12 +21,14 @@ const Home = () => {
 
   return (
     <main>
-      <section className="todos">
+      <section className="home">
         <div className="container">
-          <div className="todos__wrapper">
+          <div className="home__wrapper">
             <Character />
-
-            <TodoList todos={todos} />
+            <div className="todos">
+              <TodoForm />
+              <TodoList todos={todos} />
+            </div>
           </div>
         </div>
       </section>

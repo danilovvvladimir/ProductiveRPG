@@ -1,7 +1,53 @@
 .todo {
   &__item {
     margin: 0;
+    background-color: #fff;
+    padding: 10px 20px;
+    border: 3px #5e07aa solid;
+    border-radius: 15px;
+  }
+  &__item-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  &__item-main {
+    display: flex;
+    align-items: center;
+  }
+  &__item-btns {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  &__item-btn {
+    border: none;
+    background-color: #5e07aa;
+    color: #fff;
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    border-radius: 3px;
+    svg {
+      width: 15px;
+      height: 15px;
+    }
+    &--info {
+      width: 100px;
+    }
+  }
+  &__item-title {
+    margin: 0;
     padding: 0;
-    border: 1px purple solid;
+    padding-right: 15px;
+    border-right: 3px #5e07aa solid;
+  }
+  &__item-info {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 3px #5e07aa solid;
+  }
+  &__item-difficulty {
+    margin-left: 15px;
   }
 }
