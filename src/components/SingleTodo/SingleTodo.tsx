@@ -1,5 +1,5 @@
 import React, { FC, useState } from "react";
-import { Todo } from "../../models/models";
+import { Reward, Todo, TodoDifficultyStatus } from "../../models/models";
 
 import { FaCheck } from "react-icons/fa";
 import { AiFillEdit, AiFillDelete } from "react-icons/ai";
@@ -10,13 +10,13 @@ import Difficulty from "../Difficulty/Difficulty";
 interface SingleTodoProps {
   todo: Todo;
   removeTodo: (id: string) => void;
-  generateRandomRewards: () => void;
+  completeTodo: (id: string, difficulty: TodoDifficultyStatus) => void;
 }
 
 const SingleTodo: FC<SingleTodoProps> = ({
   todo,
   removeTodo,
-  generateRandomRewards,
+  completeTodo,
 }) => {
   const [isDetailsShowed, setIsDetailsShowed] = useState<boolean>(false);
 
@@ -29,13 +29,13 @@ const SingleTodo: FC<SingleTodoProps> = ({
       <div className="todo__item-top">
         <div className="todo__item-main">
           <h3 className="todo__item-title">{todo.title}</h3>
-          <Difficulty skullsNumber={todo.difficulty} />
+          <Difficulty difficulty={todo.difficulty} />
         </div>
 
         <div className="todo__item-btns">
           <button
             className="todo__item-btn todo__item-btn--complete"
-            onClick={generateRandomRewards}>
+            onClick={() => completeTodo(todo.id, todo.difficulty)}>
             {<FaCheck />}
           </button>
           <button className="todo__item-btn todo__item-btn--edit">

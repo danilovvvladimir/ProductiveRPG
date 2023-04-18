@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { Todo } from "../../models/models";
+import { Reward, Todo, TodoDifficultyStatus } from "../../models/models";
 import SingleTodo from "../SingleTodo/SingleTodo";
 
 import "./TodoList.scss";
@@ -7,14 +7,10 @@ import "./TodoList.scss";
 interface TodoListProps {
   todos: Todo[];
   removeTodo: (id: string) => void;
-  generateRandomRewards: () => void;
+  completeTodo: (id: string, difficulty: TodoDifficultyStatus) => void;
 }
 
-const TodoList: FC<TodoListProps> = ({
-  todos,
-  removeTodo,
-  generateRandomRewards,
-}) => {
+const TodoList: FC<TodoListProps> = ({ todos, removeTodo, completeTodo }) => {
   if (todos.length === 0) {
     return <div className="todo__list todo__list--empty">No quests yet</div>;
   }
@@ -26,7 +22,7 @@ const TodoList: FC<TodoListProps> = ({
           key={todo.id}
           todo={todo}
           removeTodo={removeTodo}
-          generateRandomRewards={generateRandomRewards}
+          completeTodo={completeTodo}
         />
       ))}
     </ul>

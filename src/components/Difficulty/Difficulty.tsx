@@ -5,10 +5,10 @@ import { GiBurningSkull } from "react-icons/gi";
 import "./Difficulty.scss";
 
 interface DifficultyProps {
-  skullsNumber: number;
+  difficulty: string;
 }
 
-const Difficulty: FC<DifficultyProps> = ({ skullsNumber }) => {
+const Difficulty: FC<DifficultyProps> = ({ difficulty }) => {
   // const numbers: number[] = new Array(skullsNumber).fill(0);
 
   // const skulls = numbers.map((number, index) => (
@@ -20,7 +20,7 @@ const Difficulty: FC<DifficultyProps> = ({ skullsNumber }) => {
   return (
     <div className="todo__item-difficulty">
       Сложность:
-      <div className="todo__item-difficulty-skulls">{skullsNumber}</div>
+      <div className="todo__item-difficulty-skulls">{difficulty}</div>
     </div>
   );
 };

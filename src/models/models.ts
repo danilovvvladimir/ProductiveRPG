@@ -1,8 +1,8 @@
 export enum TodoDifficultyStatus {
-  TRIFLE = 1,
-  EASY,
-  NORMAL,
-  HARD,
+  TRIFLE = "trifle",
+  EASY = "easy",
+  NORMAL = "normal",
+  HARD = "hard",
 }
 
 export interface Todo {
@@ -17,4 +17,9 @@ export interface CharacterInfo {
   gold: number;
   gems: number;
   questsDone: number;
+}
+
+export interface Reward {
+  gold: number;
+  gems: number;
 }

@@ -19,14 +19,38 @@ const TodoForm: FC<TodoFormProps> = ({ addNewTodo }) => {
   const [todo, setTodo] = useState<Todo>(initialTodo);
 
   const handleChange = (
-    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    event: ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
   ) => {
+    if (event.target.name === "difficulty") {
+      let difficulty: TodoDifficultyStatus;
+
+      switch (event.target.value) {
+        case "easy":
+          difficulty = TodoDifficultyStatus.EASY;
+          break;
+        case "normal":
+          difficulty = TodoDifficultyStatus.NORMAL;
+          break;
+        case "hard":
+          difficulty = TodoDifficultyStatus.HARD;
+          break;
+
+        default:
+          difficulty = TodoDifficultyStatus.TRIFLE;
+          break;
+      }
+      setTodo({ ...todo, difficulty });
+      return;
+    }
+
     setTodo({ ...todo, [event.target.name]: event.target.value });
   };
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (!todo.title) {
+    if (!todo.title || todo.title.length > 15) {
       return;
     }
     addNewTodo(todo);
@@ -45,7 +69,11 @@ const TodoForm: FC<TodoFormProps> = ({ addNewTodo }) => {
           onChange={handleChange}
         />
 
-        <select name="difficulty" className="todo-form__select">
+        <select
+          name="difficulty"
+          className="todo-form__select"
+          value={todo.difficulty}
+          onChange={handleChange}>
           <option disabled>DIFFICULTY</option>
           <option value="trifle">TRIFLE</option>
           <option value="easy">EASY</option>

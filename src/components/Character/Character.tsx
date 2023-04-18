@@ -1,5 +1,8 @@
 import React, { FC } from "react";
 
+import { RiCopperCoinFill, RiTodoFill } from "react-icons/ri";
+import { FaGem } from "react-icons/fa";
+
 import { CharacterInfo } from "../../models/models";
 import CharacterIMG from "../../assets/images/character.png";
 
@@ -15,10 +18,32 @@ const Character: FC<CharacterProps> = ({ characterInfo }) => {
     <div className="character">
       <img src={CharacterIMG} alt="character" className="character__img" />
       <div className="character__info">
-        <div className="character__info-gold">Золото: {gold}</div>
-        <div className="character__info-gems">Кристаллы: {gems}</div>
-        <div className="character__info-todos">
-          Сделанные задания: {questsDone}
+        <div className="character__info-item character__info-item--gold">
+          {
+            <RiCopperCoinFill
+              className="character__info-icon"
+              style={{ color: "gold" }}
+            />
+          }
+          Золото: {gold}
+        </div>
+        <div className="character__info-item character__info-item--gems">
+          {
+            <FaGem
+              className="character__info-icon"
+              style={{ color: "deepskyblue" }}
+            />
+          }
+          Кристаллы: {gems}
+        </div>
+        <div className="character__info-item character__info-item--todos">
+          {
+            <RiTodoFill
+              className="character__info-icon"
+              style={{ color: "tomato" }}
+            />
+          }
+          Задания: {questsDone}
         </div>
       </div>
     </div>

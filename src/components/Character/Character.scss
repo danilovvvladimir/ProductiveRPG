@@ -1,3 +1,22 @@
 .character {
   width: 300px;
+  max-height: 380px;
+  font-size: 20px;
+  border: 3px solid #5e07aa;
+  padding: 15px;
+  border-radius: 5px;
+
+  &__img {
+    margin-bottom: 15px;
+  }
+
+  &__info-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+  }
+
+  &__info-icon {
+    margin-right: 10px;
+  }
 }
