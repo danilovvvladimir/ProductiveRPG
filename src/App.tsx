@@ -2,7 +2,8 @@ import React, { FC, useState } from "react";
 import { Routes, Route } from "react-router-dom";
 
 import HomePage from "./pages/HomePage";
-import AboutPage from "./pages/AboutPage";
+
+import AboutPage from "./pages/AboutPage/AboutPage";
 import NotFoundPage from "./pages/NotFoundPage";
 
 import Layout from "./components/Layout/Layout";

@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import TodoList from "../components/TodoList/TodoList";
 import {
   CharacterInfo,
@@ -24,15 +24,7 @@ const initialCharacterInfo: CharacterInfo = {
 };
 
 const Home = () => {
-  const [todos, setTodos] = useState<Todo[]>([
-    {
-      id: v4(),
-      title: "Do smth",
-      description: "Yeah do it",
-      dateStart: new Date(),
-      difficulty: TodoDifficultyStatus.HARD,
-    },
-  ]);
+  const [todos, setTodos] = useState<Todo[]>([]);
 
   const [isNotificationVisiable, setIsNotificationVisiable] =
     useState<boolean>(false);
@@ -42,7 +34,11 @@ const Home = () => {
   const [reward, setReward] = useState<Reward>({ gems: 0, gold: 0 });
 
   const addNewTodo = (todo: Todo): void => {
-    const newTodo = { ...todo, id: v4(), dateStart: new Date() };
+    const newTodo = {
+      ...todo,
+      id: v4(),
+      dateStart: new Date().toLocaleString(),
+    };
     setTodos([...todos, newTodo]);
   };
 
@@ -57,14 +53,36 @@ const Home = () => {
       gold: characterInfo.gold + gold,
       gems: characterInfo.gems + gems,
     });
-    //removeTodo(id);
+    removeTodo(id);
     setReward({ gold, gems });
     handleNotificationReward();
   };
 
+  useEffect(() => {
+    if (localStorage.getItem("todos") !== null) {
+      setTodos(JSON.parse(localStorage.getItem("todos") as string));
+    }
+
+    if (localStorage.getItem("info") !== null) {
+      setCharacterInfo(JSON.parse(localStorage.getItem("info") as string));
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("todos", JSON.stringify(todos));
+  }, [todos]);
+
+  useEffect(() => {
+    localStorage.setItem("info", JSON.stringify(characterInfo));
+  }, [characterInfo]);
+
   const handleNotificationReward = () => {
     setIsNotificationVisiable(true);
     setTimeout(() => setIsNotificationVisiable(false), 3000);
+  };
+
+  const clearCharacterInfo = () => {
+    setCharacterInfo(initialCharacterInfo);
   };
 
   const generateRandomRewards = (difficulty: TodoDifficultyStatus): Reward => {
@@ -81,9 +99,12 @@ const Home = () => {
 
     switch (difficulty) {
       case "normal":
-      case "hard":
         procentEpic = 80;
         procentMedium = 70;
+        break;
+      case "hard":
+        procentEpic = 70;
+        procentMedium = 50;
         break;
       default:
         procentEpic = 97;
@@ -98,12 +119,15 @@ const Home = () => {
     console.log(chanceProcent);
 
     if (chanceProcent >= procentEpic) {
-      gold = generateRandomNumberByNumbers(1000, 500);
-      gems = 1;
+      gold = generateRandomNumberByNumbers(600, 200);
     } else if (chanceProcent >= procentMedium && chanceProcent < procentEpic) {
       gold = generateRandomNumberByNumbers(50, 30);
     } else {
       gold = generateRandomNumberByNumbers(30, 15);
+    }
+
+    if (chanceProcent >= 90) {
+      gems = 1;
     }
 
     return { gold, gems };
@@ -114,7 +138,10 @@ const Home = () => {
       <section className="home">
         <div className="container">
           <div className="home__wrapper">
-            <Character characterInfo={characterInfo} />
+            <Character
+              characterInfo={characterInfo}
+              clearCharacterInfo={clearCharacterInfo}
+            />
             {isNotificationVisiable && (
               <NotificationReward gold={reward.gold} gems={reward.gems} />
             )}

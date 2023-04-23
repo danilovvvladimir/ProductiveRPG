@@ -21,17 +21,22 @@ const Menu: FC = () => {
       <ul className="menu__items">
         <li className="menu__item">
           <NavLink to="/" className={setActive}>
-            Home
+            Задачи
+          </NavLink>
+        </li>
+        <li className="menu__item">
+          <NavLink to="/character" className={setActive}>
+            Персонаж
           </NavLink>
         </li>
         <li className="menu__item">
           <NavLink to="/shop" className={setActive}>
-            Shop
+            Магазин
           </NavLink>
         </li>
         <li className="menu__item">
           <NavLink to="/about" className={setActive}>
-            About
+            Про нас
           </NavLink>
         </li>
       </ul>

@@ -40,15 +40,11 @@
   &__item-title {
     margin: 0;
     padding: 0;
-    padding-right: 15px;
-    border-right: 3px #5e07aa solid;
+    font-size: 22px;
   }
   &__item-info {
     margin-top: 10px;
     padding-top: 10px;
     border-top: 3px #5e07aa solid;
-  }
-  &__item-difficulty {
-    margin-left: 15px;
   }
 }

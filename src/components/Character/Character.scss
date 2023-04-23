@@ -1,6 +1,6 @@
 .character {
   width: 300px;
-  max-height: 380px;
+  height: 400px;
   font-size: 20px;
   border: 3px solid #5e07aa;
   padding: 15px;
@@ -8,6 +8,9 @@
 
   &__img {
     margin-bottom: 15px;
+  }
+  &__info {
+    margin-bottom: 10px;
   }
 
   &__info-item {
@@ -18,5 +21,18 @@
 
   &__info-icon {
     margin-right: 10px;
+  }
+  &__btn-clear {
+    width: 100%;
+    display: block;
+    background-color: #5e07aa;
+    border: none;
+    border-radius: 5px;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-family: monospace;
+    padding: 5px;
+    color: white;
+    cursor: pointer;
   }
 }

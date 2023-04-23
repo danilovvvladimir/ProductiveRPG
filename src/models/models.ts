@@ -10,7 +10,7 @@ export interface Todo {
   title: string;
   description?: string;
   difficulty: TodoDifficultyStatus;
-  dateStart: Date;
+  dateStart: string;
 }
 
 export interface CharacterInfo {

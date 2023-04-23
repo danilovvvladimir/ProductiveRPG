@@ -10,9 +10,13 @@ import "./Character.scss";
 
 interface CharacterProps {
   characterInfo: CharacterInfo;
+  clearCharacterInfo: () => void;
 }
 
-const Character: FC<CharacterProps> = ({ characterInfo }) => {
+const Character: FC<CharacterProps> = ({
+  characterInfo,
+  clearCharacterInfo,
+}) => {
   const { gold, gems, questsDone } = characterInfo;
   return (
     <div className="character">
@@ -46,6 +50,9 @@ const Character: FC<CharacterProps> = ({ characterInfo }) => {
           Задания: {questsDone}
         </div>
       </div>
+      <button className="character__btn-clear" onClick={clearCharacterInfo}>
+        Clear Info
+      </button>
     </div>
   );
 };

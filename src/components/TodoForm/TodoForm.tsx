@@ -12,7 +12,7 @@ const initialTodo: Todo = {
   description: "",
   difficulty: TodoDifficultyStatus.TRIFLE,
   id: "",
-  dateStart: new Date(),
+  dateStart: new Date().toLocaleString(),
 };
 
 const TodoForm: FC<TodoFormProps> = ({ addNewTodo }) => {
@@ -50,7 +50,7 @@ const TodoForm: FC<TodoFormProps> = ({ addNewTodo }) => {
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (!todo.title || todo.title.length > 15) {
+    if (!todo.title) {
       return;
     }
     addNewTodo(todo);
@@ -75,10 +75,10 @@ const TodoForm: FC<TodoFormProps> = ({ addNewTodo }) => {
           value={todo.difficulty}
           onChange={handleChange}>
           <option disabled>DIFFICULTY</option>
-          <option value="trifle">TRIFLE</option>
-          <option value="easy">EASY</option>
-          <option value="normal">NORMAL</option>
-          <option value="hard">HARD</option>
+          <option value="trifle">ПУСТЯК</option>
+          <option value="easy">ЛЕГКО</option>
+          <option value="normal">НОРМАЛЬНО</option>
+          <option value="hard">СЛОЖНО</option>
         </select>
         <button type="submit" className="todo-form__btn">
           Create quest

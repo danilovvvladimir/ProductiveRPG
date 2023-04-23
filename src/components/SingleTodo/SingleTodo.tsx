@@ -29,7 +29,6 @@ const SingleTodo: FC<SingleTodoProps> = ({
       <div className="todo__item-top">
         <div className="todo__item-main">
           <h3 className="todo__item-title">{todo.title}</h3>
-          <Difficulty difficulty={todo.difficulty} />
         </div>
 
         <div className="todo__item-btns">
@@ -55,8 +54,10 @@ const SingleTodo: FC<SingleTodoProps> = ({
       </div>
       {isDetailsShowed && (
         <div className="todo__item-info">
+          <Difficulty difficulty={todo.difficulty} />
+
           <div className="todo__item-description">
-            Описание: {todo.description}
+            Описание: {todo.description ? todo.description : "*отсутствует*"}
           </div>
 
           <div className="todo__item-date">
