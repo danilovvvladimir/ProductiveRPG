@@ -29,11 +29,6 @@
     border: none;
     height: 70px;
   }
-  &__select {
-    height: 30px;
-    width: 230px;
-    border-radius: 3px;
-  }
   &__btn {
     cursor: pointer;
     color: black;
@@ -46,5 +41,32 @@
     padding: 0;
     width: 230px;
     border-radius: 3px;
+  }
+}
+
+.custom-select {
+  &__control {
+    min-height: auto !important;
+    height: 30px !important;
+    width: 230px !important;
+    border-radius: 3px !important;
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+    font-size: 13.3px !important;
+  }
+  &__value-container {
+    padding: 0 5px !important;
+    min-height: 30px !important;
+    height: 30px !important;
+  }
+  &__indicator {
+    path {
+      fill: #5e07aa;
+    }
+  }
+
+  &__menu {
+    top: 40px !important;
+    margin-top: 0 !important;
   }
 }

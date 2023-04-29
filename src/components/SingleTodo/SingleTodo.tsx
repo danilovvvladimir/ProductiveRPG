@@ -54,8 +54,7 @@ const SingleTodo: FC<SingleTodoProps> = ({
       </div>
       {isDetailsShowed && (
         <div className="todo__item-info">
-          <Difficulty difficulty={todo.difficulty} />
-
+          {/* <Difficulty difficulty={todo.difficulty} /> */}
           <div className="todo__item-description">
             Описание: {todo.description ? todo.description : "*отсутствует*"}
           </div>

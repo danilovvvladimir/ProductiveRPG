@@ -1,8 +1,12 @@
 export enum TodoDifficultyStatus {
-  TRIFLE = "trifle",
-  EASY = "easy",
-  NORMAL = "normal",
-  HARD = "hard",
+  // TRIFLE = "trifle",
+  // EASY = "easy",
+  // NORMAL = "normal",
+  // HARD = "hard",
+  TRIFLE = 1,
+  EASY,
+  NORMAL,
+  HARD,
 }
 
 export interface Todo {
@@ -22,4 +26,10 @@ export interface CharacterInfo {
 export interface Reward {
   gold: number;
   gems: number;
+}
+
+export interface ITodoField {
+  title: string;
+  description: string;
+  difficulty: TodoDifficultyStatus;
 }

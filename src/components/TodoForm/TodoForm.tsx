@@ -1,95 +1,64 @@
 import React, { ChangeEvent, FC, FormEvent, useState } from "react";
-import { Todo, TodoDifficultyStatus } from "../../models/models";
-
+import { SubmitHandler, useForm, Controller } from "react-hook-form";
+import { ITodoField, Todo, TodoDifficultyStatus } from "../../models/models";
+import Select from "react-select";
 import "./TodoForm.scss";
+import { getValue, IOption, options } from "../../services/formService";
 
 interface TodoFormProps {
   addNewTodo: (todo: Todo) => void;
 }
-
-const initialTodo: Todo = {
-  title: "",
-  description: "",
-  difficulty: TodoDifficultyStatus.TRIFLE,
-  id: "",
-  dateStart: new Date().toLocaleString(),
-};
-
 const TodoForm: FC<TodoFormProps> = ({ addNewTodo }) => {
-  const [todo, setTodo] = useState<Todo>(initialTodo);
+  const {
+    register,
+    reset,
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm<ITodoField>({ mode: "onChange" });
 
-  const handleChange = (
-    event: ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
-  ) => {
-    if (event.target.name === "difficulty") {
-      let difficulty: TodoDifficultyStatus;
-
-      switch (event.target.value) {
-        case "easy":
-          difficulty = TodoDifficultyStatus.EASY;
-          break;
-        case "normal":
-          difficulty = TodoDifficultyStatus.NORMAL;
-          break;
-        case "hard":
-          difficulty = TodoDifficultyStatus.HARD;
-          break;
-
-        default:
-          difficulty = TodoDifficultyStatus.TRIFLE;
-          break;
-      }
-      setTodo({ ...todo, difficulty });
-      return;
-    }
-
-    setTodo({ ...todo, [event.target.name]: event.target.value });
-  };
-
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    if (!todo.title) {
-      return;
-    }
-    addNewTodo(todo);
-    setTodo(initialTodo);
+  const onSubmit: SubmitHandler<ITodoField> = (data) => {
+    const newTodo: Todo = {
+      ...data,
+      id: "",
+      dateStart: new Date().toLocaleString(),
+    };
+    reset();
+    addNewTodo(newTodo);
   };
 
   return (
-    <form className="todo-form" onSubmit={handleSubmit}>
+    <form className="todo-form" onSubmit={handleSubmit(onSubmit)}>
       <div className="todo-form__wrapper">
         <input
           type="text"
           className="todo-form__input"
-          name="title"
+          {...register("title", { required: true })}
           placeholder="Название..."
-          value={todo.title}
-          onChange={handleChange}
+        />
+        <Controller
+          control={control}
+          name="difficulty"
+          rules={{ required: "Поставьте сложность задания" }}
+          render={({ field: { onChange, value }, fieldState: { error } }) => (
+            <Select
+              classNamePrefix="custom-select"
+              options={options}
+              value={getValue(value)}
+              onChange={(newValue) => onChange((newValue as IOption).value)}
+              placeholder="Сложность..."
+            />
+          )}
         />
 
-        <select
-          name="difficulty"
-          className="todo-form__select"
-          value={todo.difficulty}
-          onChange={handleChange}>
-          <option disabled>DIFFICULTY</option>
-          <option value="trifle">ПУСТЯК</option>
-          <option value="easy">ЛЕГКО</option>
-          <option value="normal">НОРМАЛЬНО</option>
-          <option value="hard">СЛОЖНО</option>
-        </select>
         <button type="submit" className="todo-form__btn">
           Create quest
         </button>
       </div>
       <textarea
-        value={todo.description}
-        name="description"
+        {...register("description")}
         className="todo-form__textarea"
-        placeholder="Описание..."
-        onChange={handleChange}></textarea>
+        placeholder="Описание..."></textarea>
     </form>
   );
 };

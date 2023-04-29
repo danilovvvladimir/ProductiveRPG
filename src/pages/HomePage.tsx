@@ -98,11 +98,11 @@ const Home = () => {
     let procentMedium: number;
 
     switch (difficulty) {
-      case "normal":
+      case 1:
         procentEpic = 80;
         procentMedium = 70;
         break;
-      case "hard":
+      case 4:
         procentEpic = 70;
         procentMedium = 50;
         break;
