@@ -26,7 +26,7 @@ const Character: FC<CharacterProps> = ({
           {
             <RiCopperCoinFill
               className="character__info-icon"
-              style={{ color: "gold" }}
+              style={{ color: "#ffab10" }}
             />
           }
           Золото: {gold}

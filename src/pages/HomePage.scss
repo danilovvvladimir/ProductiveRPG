@@ -8,3 +8,25 @@
 .todos {
   width: 100%;
 }
+
+.notification {
+  font-size: 16px;
+  color: #000;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  &__reward {
+    display: flex;
+    gap: 3px;
+    align-items: center;
+  }
+  &__close-btn {
+    height: 25px;
+    width: 25px;
+    color: #5e5764;
+    transition: all 0.2s ease;
+    &:hover {
+      color: #5e07aa;
+    }
+  }
+}

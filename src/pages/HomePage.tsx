@@ -1,21 +1,20 @@
-import React, { FC, useEffect, useState } from "react";
-import TodoList from "../components/TodoList/TodoList";
-import {
-  CharacterInfo,
-  Reward,
-  Todo,
-  TodoDifficultyStatus,
-} from "../models/models";
-
+import { FC, useEffect, useState } from "react";
+import { v4 } from "uuid";
 import { RiCopperCoinFill } from "react-icons/ri";
 import { FaGem } from "react-icons/fa";
+import { IoMdClose } from "react-icons/io";
 
-import { v4 } from "uuid";
-import Character from "../components/Character/Character";
-
-import "./HomePage.scss";
 import TodoForm from "../components/TodoForm/TodoForm";
-import Notification from "../components/Notification/Notification";
+import TodoList from "../components/TodoList/TodoList";
+import Character from "../components/Character/Character";
+import { generateRandomRewards } from "../services/rewardService";
+
+import { CharacterInfo, Todo, TodoDifficultyStatus } from "../models/models";
+
+import "react-toastify/dist/ReactToastify.css";
+import "./HomePage.scss";
+
+import { toast, ToastContainer } from "react-toastify";
 
 const initialCharacterInfo: CharacterInfo = {
   gems: 0,
@@ -23,15 +22,29 @@ const initialCharacterInfo: CharacterInfo = {
   questsDone: 0,
 };
 
-const Home = () => {
+const closeButton = () => {
+  return <IoMdClose className="notification__close-btn" />;
+};
+
+const notifyReward = (
+  message: string,
+  rewardAmount: number,
+  iconComponent?: JSX.Element
+) => {
+  toast(
+    <div className="notification">
+      <div className="notification__message">{message}</div>
+      <div className="notification__reward">
+        {rewardAmount}
+        {iconComponent}
+      </div>
+    </div>
+  );
+};
+
+const Home: FC = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
-
-  const [isNotificationVisiable, setIsNotificationVisiable] =
-    useState<boolean>(false);
-
   const [characterInfo, setCharacterInfo] = useState(initialCharacterInfo);
-
-  const [reward, setReward] = useState<Reward>({ gems: 0, gold: 0 });
 
   const addNewTodo = (todo: Todo): void => {
     const newTodo = {
@@ -54,8 +67,18 @@ const Home = () => {
       gems: characterInfo.gems + gems,
     });
     removeTodo(id);
-    setReward({ gold, gems });
-    handleNotificationReward();
+    notifyReward(
+      "Вы получили золото:",
+      gold,
+      <RiCopperCoinFill style={{ color: "#ffab10" }} />
+    );
+    if (gems !== 0) {
+      notifyReward(
+        "Вы получили кристаллы:",
+        gems,
+        <FaGem style={{ color: "deepskyblue" }} />
+      );
+    }
   };
 
   useEffect(() => {
@@ -76,75 +99,25 @@ const Home = () => {
     localStorage.setItem("info", JSON.stringify(characterInfo));
   }, [characterInfo]);
 
-  const handleNotificationReward = () => {
-    setIsNotificationVisiable(true);
-    setTimeout(() => setIsNotificationVisiable(false), 3000);
-  };
-
   const clearCharacterInfo = () => {
     setCharacterInfo(initialCharacterInfo);
-  };
-
-  const generateRandomRewards = (difficulty: TodoDifficultyStatus): Reward => {
-    const generateRandomNumberByNumbers = (
-      top: number,
-      bottom: number = 0
-    ): number => {
-      const randomNumber = Math.floor(Math.random() * top);
-      return randomNumber < bottom ? randomNumber + bottom : randomNumber;
-    };
-
-    let procentEpic: number;
-    let procentMedium: number;
-
-    switch (difficulty) {
-      case 1:
-        procentEpic = 80;
-        procentMedium = 70;
-        break;
-      case 4:
-        procentEpic = 70;
-        procentMedium = 50;
-        break;
-      default:
-        procentEpic = 97;
-        procentMedium = 80;
-        break;
-    }
-
-    const chanceProcent: number = generateRandomNumberByNumbers(100);
-    let gold: number = 0;
-    let gems: number = 0;
-
-    console.log(chanceProcent);
-
-    if (chanceProcent >= procentEpic) {
-      gold = generateRandomNumberByNumbers(600, 200);
-    } else if (chanceProcent >= procentMedium && chanceProcent < procentEpic) {
-      gold = generateRandomNumberByNumbers(50, 30);
-    } else {
-      gold = generateRandomNumberByNumbers(30, 15);
-    }
-
-    if (chanceProcent >= 90) {
-      gems = 1;
-    }
-
-    return { gold, gems };
   };
 
   return (
     <main>
       <section className="home">
+        <ToastContainer
+          autoClose={3000}
+          hideProgressBar={true}
+          pauseOnHover={false}
+          closeButton={closeButton}
+        />
         <div className="container">
           <div className="home__wrapper">
             <Character
               characterInfo={characterInfo}
               clearCharacterInfo={clearCharacterInfo}
             />
-            {isNotificationVisiable && (
-              <NotificationReward gold={reward.gold} gems={reward.gems} />
-            )}
             <div className="todos">
               <TodoForm addNewTodo={addNewTodo} />
               <TodoList
@@ -157,37 +130,6 @@ const Home = () => {
         </div>
       </section>
     </main>
-  );
-};
-
-const NotificationReward = ({ gold, gems }: Reward) => {
-  return (
-    <Notification>
-      {
-        <>
-          <div className="notification__items notification__items--gold">
-            {
-              <RiCopperCoinFill
-                className="character__info-icon"
-                style={{ color: "gold" }}
-              />
-            }
-            Gold: {gold}
-          </div>
-          {!!gems && (
-            <div className="notification__items notification__items--gems">
-              {
-                <FaGem
-                  className="character__info-icon"
-                  style={{ color: "deepskyblue" }}
-                />
-              }
-              Gems: {gems}
-            </div>
-          )}
-        </>
-      }
-    </Notification>
   );
 };
 
