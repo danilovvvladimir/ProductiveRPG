@@ -1,8 +1,4 @@
 export enum TodoDifficultyStatus {
-  // TRIFLE = "trifle",
-  // EASY = "easy",
-  // NORMAL = "normal",
-  // HARD = "hard",
   TRIFLE = 1,
   EASY,
   NORMAL,

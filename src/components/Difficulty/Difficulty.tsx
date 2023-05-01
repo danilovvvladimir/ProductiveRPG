@@ -1,25 +1,17 @@
-import React, { FC, useMemo, useState } from "react";
-
-import { GiBurningSkull } from "react-icons/gi";
+import React, { FC } from "react";
+import { TodoDifficultyStatus } from "../../models/models";
+import { transformDifficultyToString } from "../../services/difficultyService";
 
 import "./Difficulty.scss";
 
 interface DifficultyProps {
-  difficulty: number;
+  difficulty: TodoDifficultyStatus;
 }
 
 const Difficulty: FC<DifficultyProps> = ({ difficulty }) => {
-  const skulls: JSX.Element[] = [];
-
-  for (let i = 0; i < difficulty; i++) {
-    skulls.push(<GiBurningSkull key={i} className="todo__item-skull" />);
-  }
-  console.log(skulls);
-
   return (
     <div className="todo__item-difficulty">
-      Сложность:
-      <div className="todo__item-difficulty-skulls">{skulls}</div>
+      Сложность: {transformDifficultyToString(difficulty)}
     </div>
   );
 };

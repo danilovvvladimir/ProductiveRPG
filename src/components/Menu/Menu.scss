@@ -50,10 +50,12 @@ a {
   background-color: #fff;
   position: absolute;
   bottom: -5px;
+  left: 51%;
   transition: all 0.7s ease;
 }
 .menu__link:hover::before {
   width: 100%;
+  left: 0;
 }
 
 .menu__link-active::before {
@@ -64,4 +66,5 @@ a {
   position: absolute;
   bottom: -5px;
   transition: all 0.7s ease;
+  left: 0;
 }

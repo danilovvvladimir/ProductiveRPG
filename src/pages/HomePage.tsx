@@ -3,6 +3,7 @@ import { v4 } from "uuid";
 import { RiCopperCoinFill } from "react-icons/ri";
 import { FaGem } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
+import { toast, ToastContainer } from "react-toastify";
 
 import TodoForm from "../components/TodoForm/TodoForm";
 import TodoList from "../components/TodoList/TodoList";
@@ -13,8 +14,6 @@ import { CharacterInfo, Todo, TodoDifficultyStatus } from "../models/models";
 
 import "react-toastify/dist/ReactToastify.css";
 import "./HomePage.scss";
-
-import { toast, ToastContainer } from "react-toastify";
 
 const initialCharacterInfo: CharacterInfo = {
   gems: 0,
@@ -43,9 +42,12 @@ const notifyReward = (
 };
 
 const Home: FC = () => {
+  // Main Todos list
   const [todos, setTodos] = useState<Todo[]>([]);
+  // Main CharacterInfo
   const [characterInfo, setCharacterInfo] = useState(initialCharacterInfo);
 
+  // Todos Handlers
   const addNewTodo = (todo: Todo): void => {
     const newTodo = {
       ...todo,
@@ -81,6 +83,12 @@ const Home: FC = () => {
     }
   };
 
+  // Character Handlers
+  const clearCharacterInfo = () => {
+    setCharacterInfo(initialCharacterInfo);
+  };
+
+  // Local Storage Handlers
   useEffect(() => {
     if (localStorage.getItem("todos") !== null) {
       setTodos(JSON.parse(localStorage.getItem("todos") as string));
@@ -98,10 +106,6 @@ const Home: FC = () => {
   useEffect(() => {
     localStorage.setItem("info", JSON.stringify(characterInfo));
   }, [characterInfo]);
-
-  const clearCharacterInfo = () => {
-    setCharacterInfo(initialCharacterInfo);
-  };
 
   return (
     <main>

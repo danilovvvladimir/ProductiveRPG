@@ -9,6 +9,7 @@ import NotFoundPage from "./pages/NotFoundPage";
 import Layout from "./components/Layout/Layout";
 
 import "./App.scss";
+import CharacterPage from "./pages/CharacterPage/CharacterPage";
 
 const App: FC = () => {
   return (
@@ -16,6 +17,7 @@ const App: FC = () => {
       <Route path="/" element={<Layout />}>
         <Route index element={<HomePage />} />
         <Route path="/about" element={<AboutPage />} />
+        <Route path="/character" element={<CharacterPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Route>
     </Routes>

@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { Reward, Todo, TodoDifficultyStatus } from "../../models/models";
+import { Todo, TodoDifficultyStatus } from "../../models/models";
 import SingleTodo from "../SingleTodo/SingleTodo";
 
 import "./TodoList.scss";

@@ -1,11 +1,11 @@
-import React, { FC, useState } from "react";
-import { Reward, Todo, TodoDifficultyStatus } from "../../models/models";
-
+import { FC, useState } from "react";
+import { Todo, TodoDifficultyStatus } from "../../models/models";
 import { FaCheck } from "react-icons/fa";
 import { AiFillEdit, AiFillDelete } from "react-icons/ai";
 
-import "./SingleTodo.scss";
 import Difficulty from "../Difficulty/Difficulty";
+
+import "./SingleTodo.scss";
 
 interface SingleTodoProps {
   todo: Todo;
@@ -54,7 +54,7 @@ const SingleTodo: FC<SingleTodoProps> = ({
       </div>
       {isDetailsShowed && (
         <div className="todo__item-info">
-          {/* <Difficulty difficulty={todo.difficulty} /> */}
+          <Difficulty difficulty={todo.difficulty} />
           <div className="todo__item-description">
             Описание: {todo.description ? todo.description : "*отсутствует*"}
           </div>
