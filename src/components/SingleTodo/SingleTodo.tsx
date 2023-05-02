@@ -2,10 +2,12 @@ import { FC, useState } from "react";
 import { Todo, TodoDifficultyStatus } from "../../models/models";
 import { FaCheck } from "react-icons/fa";
 import { AiFillEdit, AiFillDelete } from "react-icons/ai";
+import Modal from "../UI/Modal/Modal";
 
 import Difficulty from "../Difficulty/Difficulty";
 
 import "./SingleTodo.scss";
+import TodoForm from "../TodoForm/TodoForm";
 
 interface SingleTodoProps {
   todo: Todo;
@@ -19,6 +21,7 @@ const SingleTodo: FC<SingleTodoProps> = ({
   completeTodo,
 }) => {
   const [isDetailsShowed, setIsDetailsShowed] = useState<boolean>(false);
+  const [active, setActive] = useState<boolean>(false);
 
   const toggleDetails = (): void => {
     setIsDetailsShowed((isDetailsShowed) => !isDetailsShowed);
@@ -37,7 +40,9 @@ const SingleTodo: FC<SingleTodoProps> = ({
             onClick={() => completeTodo(todo.id, todo.difficulty)}>
             {<FaCheck />}
           </button>
-          <button className="todo__item-btn todo__item-btn--edit">
+          <button
+            className="todo__item-btn todo__item-btn--edit"
+            onClick={() => setActive(true)}>
             {<AiFillEdit />}
           </button>
           <button
@@ -64,6 +69,9 @@ const SingleTodo: FC<SingleTodoProps> = ({
           </div>
         </div>
       )}
+      <Modal active={active} setActive={setActive}>
+        editing form
+      </Modal>
     </li>
   );
 };
