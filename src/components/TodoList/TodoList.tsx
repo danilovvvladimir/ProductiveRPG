@@ -1,16 +1,12 @@
 import React, { FC } from "react";
-import { Todo, TodoDifficultyStatus } from "../../models/models";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store/store";
 import SingleTodo from "../SingleTodo/SingleTodo";
 
 import "./TodoList.scss";
 
-interface TodoListProps {
-  todos: Todo[];
-  removeTodo: (id: string) => void;
-  completeTodo: (id: string, difficulty: TodoDifficultyStatus) => void;
-}
-
-const TodoList: FC<TodoListProps> = ({ todos, removeTodo, completeTodo }) => {
+const TodoList: FC = () => {
+  const todos = useSelector((state: RootState) => state.todos.todos);
   if (todos.length === 0) {
     return <div className="todo__list todo__list--empty">No quests yet</div>;
   }
@@ -18,12 +14,7 @@ const TodoList: FC<TodoListProps> = ({ todos, removeTodo, completeTodo }) => {
   return (
     <ul className="todo__list">
       {todos.map((todo) => (
-        <SingleTodo
-          key={todo.id}
-          todo={todo}
-          removeTodo={removeTodo}
-          completeTodo={completeTodo}
-        />
+        <SingleTodo key={todo.id} todo={todo} />
       ))}
     </ul>
   );

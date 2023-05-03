@@ -5,7 +5,9 @@ const CharacterPage = () => {
   return (
     <main>
       <section className="character__section">
-        <div className="container">{/* <Character /> */}</div>
+        <div className="container">
+          <Character />
+        </div>
       </section>
     </main>
   );

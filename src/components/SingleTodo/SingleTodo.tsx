@@ -1,30 +1,81 @@
 import { FC, useState } from "react";
-import { Todo, TodoDifficultyStatus } from "../../models/models";
-import { FaCheck } from "react-icons/fa";
+import { CharacterInfo, Todo, TodoDifficultyStatus } from "../../models/models";
+import { FaCheck, FaGem } from "react-icons/fa";
 import { AiFillEdit, AiFillDelete } from "react-icons/ai";
 import Modal from "../UI/Modal/Modal";
 
 import Difficulty from "../Difficulty/Difficulty";
+import { removeTodoAction } from "../../store/slices/todosSlice";
 
 import "./SingleTodo.scss";
 import TodoForm from "../TodoForm/TodoForm";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../store/store";
+import { setCharacterInfoAction } from "../../store/slices/characterSlice";
+import { generateRandomRewards } from "../../services/rewardService";
+import { toast } from "react-toastify";
+import { RiCopperCoinFill } from "react-icons/ri";
 
 interface SingleTodoProps {
   todo: Todo;
-  removeTodo: (id: string) => void;
-  completeTodo: (id: string, difficulty: TodoDifficultyStatus) => void;
 }
 
-const SingleTodo: FC<SingleTodoProps> = ({
-  todo,
-  removeTodo,
-  completeTodo,
-}) => {
+const notifyReward = (
+  message: string,
+  rewardAmount: number,
+  iconComponent?: JSX.Element
+) => {
+  toast(
+    <div className="notification">
+      <div className="notification__message">{message}</div>
+      <div className="notification__reward">
+        {rewardAmount}
+        {iconComponent}
+      </div>
+    </div>
+  );
+};
+
+const SingleTodo: FC<SingleTodoProps> = ({ todo }) => {
+  const characterInfo = useSelector(
+    (state: RootState) => state.characterInfo.characterInfo
+  );
   const [isDetailsShowed, setIsDetailsShowed] = useState<boolean>(false);
   const [active, setActive] = useState<boolean>(false);
+  const dispatch = useDispatch();
 
   const toggleDetails = (): void => {
     setIsDetailsShowed((isDetailsShowed) => !isDetailsShowed);
+  };
+
+  const setCharacterInfo = (characterInfo: CharacterInfo) => {
+    dispatch(setCharacterInfoAction(characterInfo));
+  };
+
+  const removeTodo = (id: string): void => {
+    dispatch(removeTodoAction(id));
+  };
+
+  const completeTodo = (id: string, difficulty: TodoDifficultyStatus): void => {
+    const { gold, gems } = generateRandomRewards(difficulty);
+    setCharacterInfo({
+      questsDone: characterInfo.questsDone + 1,
+      gold: characterInfo.gold + gold,
+      gems: characterInfo.gems + gems,
+    });
+    removeTodo(id);
+    notifyReward(
+      "Вы получили золото:",
+      gold,
+      <RiCopperCoinFill style={{ color: "#ffab10" }} />
+    );
+    if (gems !== 0) {
+      notifyReward(
+        "Вы получили кристаллы:",
+        gems,
+        <FaGem style={{ color: "deepskyblue" }} />
+      );
+    }
   };
 
   return (
@@ -70,7 +121,12 @@ const SingleTodo: FC<SingleTodoProps> = ({
         </div>
       )}
       <Modal active={active} setActive={setActive}>
-        editing form
+        {
+          <>
+            <div>Режим редактирования:</div>
+            <TodoForm />
+          </>
+        }
       </Modal>
     </li>
   );

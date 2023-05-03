@@ -1,12 +1,12 @@
-import React, { ChangeEvent, FC, FormEvent, useState } from "react";
+import React, { FC } from "react";
 import { SubmitHandler, useForm, Controller } from "react-hook-form";
-import { ITodoField, Todo, TodoDifficultyStatus } from "../../models/models";
+import { ITodoField, Todo } from "../../models/models";
 import Select from "react-select";
 import "./TodoForm.scss";
 import { getValue, IOption, options } from "../../services/formService";
 
 interface TodoFormProps {
-  addNewTodo: (todo: Todo) => void;
+  addNewTodo?: (todo: Todo) => void;
 }
 const TodoForm: FC<TodoFormProps> = ({ addNewTodo }) => {
   const {
@@ -24,7 +24,9 @@ const TodoForm: FC<TodoFormProps> = ({ addNewTodo }) => {
       dateStart: new Date().toLocaleString(),
     };
     reset();
-    addNewTodo(newTodo);
+    if (addNewTodo) {
+      addNewTodo(newTodo);
+    }
   };
 
   return (
@@ -33,6 +35,7 @@ const TodoForm: FC<TodoFormProps> = ({ addNewTodo }) => {
         <input
           type="text"
           className="todo-form__input"
+          // value={oldTodo && oldTodo.title}
           {...register("title", { required: true })}
           placeholder="Название..."
         />
@@ -63,4 +66,4 @@ const TodoForm: FC<TodoFormProps> = ({ addNewTodo }) => {
   );
 };
 
-export default TodoForm;
+export default React.memo(TodoForm);

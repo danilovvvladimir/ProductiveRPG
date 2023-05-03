@@ -1,23 +1,26 @@
-import React, { FC } from "react";
+import { FC } from "react";
 
 import { RiCopperCoinFill, RiTodoFill } from "react-icons/ri";
 import { FaGem } from "react-icons/fa";
 
-import { CharacterInfo } from "../../models/models";
 import CharacterIMG from "../../assets/images/character.png";
 
 import "./Character.scss";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../store/store";
+import { clearCharacterInfoAction } from "../../store/slices/characterSlice";
 
-interface CharacterProps {
-  characterInfo: CharacterInfo;
-  clearCharacterInfo: () => void;
-}
-
-const Character: FC<CharacterProps> = ({
-  characterInfo,
-  clearCharacterInfo,
-}) => {
+const Character: FC = () => {
+  const characterInfo = useSelector(
+    (state: RootState) => state.characterInfo.characterInfo
+  );
   const { gold, gems, questsDone } = characterInfo;
+  const dispatch = useDispatch();
+
+  const clearCharacterInfo = () => {
+    dispatch(clearCharacterInfoAction());
+  };
+
   return (
     <div className="character">
       <img src={CharacterIMG} alt="character" className="character__img" />
